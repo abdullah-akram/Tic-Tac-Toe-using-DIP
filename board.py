@@ -132,6 +132,9 @@ def checkresult(img,cntours):
 
 #Takes in input as the count of fingers and fills the box accordingly
 def callbox(cc,key,bol):
+   
+
+
     if key == ord('q'):
         sys.exit()
     j=0
@@ -159,12 +162,7 @@ def callbox(cc,key,bol):
         bol = True   
     
     re = checkresult(img,contours)
-    if re=='d' or re=='x' or re == 'o':
-        while True:
-            key3 = cv2.waitKey(1)
-            if key3 == ord('q'):
-                sys.exit()
-
+    
 
 
   
@@ -184,4 +182,4 @@ def callbox(cc,key,bol):
     cv2.resizeWindow('Board', 530, 460)
     cv2.moveWindow("Board", 775,130) 
     cv2.imshow('Board', imS)
-    return bol
+    return bol,re

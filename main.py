@@ -1,9 +1,8 @@
 import cv2
-import numpy as np
 from handcapture import *
 from board import *
 import sys
-import random
+from PIL import Image
 
 box1 = cv2.imread('box1.png')
 bg = cv2.imread('BG.png')
@@ -32,7 +31,7 @@ bol = True
 cv2.imshow('Board', imS)
 detector = HandDetector(maxHands=2, detectionCon=0.8)
 video = cv2.VideoCapture(0)
-
+ress = ''
       
 while True:
     key = cv2.waitKey(1)
@@ -56,11 +55,27 @@ while True:
         exit()
 
     if startGame:   
+        
+        if ress=='d' or ress=='x' or ress == 'o':
+            img_box = Image.open("box.png")
+            img_box1 = Image.open("box1.png")
+
+            # Copy the content of img_box to img_box1
+            img_box1.paste(img_box, (0, 0))
+
+            # Save the modified image
+            img_box1.save("box1.png")
+            while True:
+                key3 = cv2.waitKey(1)
+                if key3 == ord('q'):
+                    sys.exit()
+                    
         if key == ord('q'):
             print("q observed in s")
             sys.exit()
         cnt = handsTimer(video, detector,bg4,key=key)
-        bol = callbox(cnt,key,bol)
+        bol,ress = callbox(cnt,key,bol)
+        
         print("value of key in start: "+str(key))             
     print("value of key out start: "+str(key))
     print("end loop")
