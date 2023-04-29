@@ -17,9 +17,7 @@ def handsTimer(video, detector,bg,key):
     
 		timer = time.time() - initialTime
 		down = 3-int(timer)
-		# cv2.putText(bg, str(int(timer)), (625, 435), cv2.FONT_HERSHEY_PLAIN, 6, (255, 0, 255), 4)
 		cv2.putText(bg, str(int(down)), (710, 425), cv2.FONT_HERSHEY_PLAIN, 6, (255, 0, 255), 4)
-		# print("timer:"+str(int(timer)))
 		cv2.imshow('Tic_Tac_Toe',bg)
 
 		if timer<3:
@@ -41,19 +39,19 @@ def handsTimer(video, detector,bg,key):
 				if lmlist:
 					fingerup = detector.fingersUp(lmlist)
 					if fingerup == [0, 1, 0, 0, 0]:
-						print("1 up")
+						# print("1 up")
 						cnt=1
 					if fingerup == [0, 1, 1, 0, 0]:
-						print("2 up")
+						# print("2 up")
 						cnt=2
 					if fingerup == [0, 1, 1, 1, 0]:
-						print("3 up")
+						# print("3 up")
 						cnt=3
 					if fingerup == [0, 1, 1, 1, 1]:
-						print("4 up")
+						# print("4 up")
 						cnt=4
 					if fingerup == [1, 1, 1, 1, 1]:
-						print("5 up")
+						# print("5 up")
 						cnt = 5
 				if len(hand)==2:
 					# Checks if two hands
@@ -61,19 +59,19 @@ def handsTimer(video, detector,bg,key):
 					if lmlist2:
 						fingerup = detector.fingersUp(lmlist2)
 						if fingerup == [0, 1, 0, 0, 0]:
-							print("1 up------------")
+							# print("1 up right")
 							cnt += 1
 						if fingerup == [0, 1, 1, 0, 0]:
-							print("2 up------------")
+							# print("2 up right")
 							cnt += 2
 						if fingerup == [0, 1, 1, 1, 0]:
-							print("3 up------------")
+							# print("3 up right")
 							cnt += 3
 						if fingerup == [0, 1, 1, 1, 1]:
-							print("4 up------------")
+							# print("4 up right")
 							cnt += 4
 						if fingerup == [1, 1, 1, 1, 1]:
-							print("5 up------------") 
+							# print("5 up right") 
 							cnt += 5
 
 			cv2.namedWindow('Video', cv2.WINDOW_NORMAL)
@@ -84,7 +82,6 @@ def handsTimer(video, detector,bg,key):
 			cv2.imshow("Video", img)
 
 			cv2.moveWindow("Video", 21,128) 
-			# print("----------------- "+str(cnt)+"-------------------")
 			if cv2.waitKey(1) & 0xFF == ord('p'):
 				break
 

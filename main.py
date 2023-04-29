@@ -7,6 +7,7 @@ import random
 
 box1 = cv2.imread('box1.png')
 bg = cv2.imread('BG.png')
+bg4 = cv2.imread('BG2.png')
 
 cv2.namedWindow("Tic_Tac_Toe", cv2.WND_PROP_FULLSCREEN)
 # cv2.putText(bg, str(int(2)), (605, 435), cv2.FONT_HERSHEY_PLAIN, 6, (255, 0, 255), 4)
@@ -29,8 +30,6 @@ cv2.moveWindow("Board", 775,130)
 bol = True 
 
 cv2.imshow('Board', imS)
-# cv2.imshow('Result',box1)
-# box2 = cv2.imread('box.png')
 detector = HandDetector(maxHands=2, detectionCon=0.8)
 video = cv2.VideoCapture(0)
 
@@ -57,21 +56,13 @@ while True:
         exit()
 
     if startGame:   
-        # key = cv2.waitKey(1)
         if key == ord('q'):
             print("q observed in s")
             sys.exit()
-        cnt = handsTimer(video, detector,bg,key=key)
+        cnt = handsTimer(video, detector,bg4,key=key)
         bol = callbox(cnt,key,bol)
-        # cnt2 = random.randint(1,10)
-
-        # moveAI(cnt)
-        print("value of key in start: "+str(key))
-        
-       
-       
+        print("value of key in start: "+str(key))             
     print("value of key out start: "+str(key))
-
     print("end loop")
 
 
