@@ -1,6 +1,6 @@
 import cv2
 import sys
-
+import winsound
 # to draw X on square
 def drawXO(img_rgb,x,w,y,h):
     cv2.putText(img_rgb, 'X', (x + w // 2 - 30, y + h // 2 + 20), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0,0), 3)
@@ -22,6 +22,7 @@ def detectEmptySquare(img,img_rgb,cnt,j,cc):
     else:
         # print("j = "+str(j))
         if j==(9-cc):
+            winsound.Beep(1240, 400)
             drawXO(img_rgb,x,w,y,h)
             # print("X on "+str(cc))
             # print("empty value:"+str(cv2.sumElems(sub_thresh)[0]))
@@ -42,6 +43,7 @@ def detectOSquare(img,img_rgb,cnt,j,cc):
     else:
         # print("j = "+str(j))
         if j==(9-cc):
+            winsound.Beep(1240, 400)
             drawO(img_rgb,x,w,y,h)
             # print("O on "+str(cc))
             # print("filled value:"+str(cv2.sumElems(sub_thresh)[0]))
