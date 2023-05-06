@@ -2,16 +2,16 @@ import cv2
 import sys
 import winsound
 # to draw X on square
-def drawXO(img_rgb,x,w,y,h):
+def drawX(img_rgb,x,w,y,h):
     cv2.putText(img_rgb, 'X', (x + w // 2 - 30, y + h // 2 + 20), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0,0), 3)
 
 # to draw O on square
 def drawO(img_rgb,x,w,y,h):
-    cv2.putText(img_rgb, 'O', (x + w // 2 - 30, y + h // 2 + 20), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 3)
+    cv2.putText(img_rgb, 'O', (x + w // 2 - 30, y + h // 2 + 20), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 0), 3)
 
     
 #detects empty square and fills a value accordingly X
-def detectEmptySquare(img,img_rgb,cnt,j,cc):
+def detectEmptySquare(img,img_rgb,cnt,j,cc,bol):
     x, y, w, h = cv2.boundingRect(cnt)
     sub_img = img[y:y+h, x:x+w]
     _, sub_thresh = cv2.threshold(sub_img, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
@@ -20,19 +20,21 @@ def detectEmptySquare(img,img_rgb,cnt,j,cc):
         # print("filled value:"+str(cv2.sumElems(sub_thresh)[0]))
         print("")
     else:
-        # print("j = "+str(j))
+        print("jX = "+str(j))
         if j==(9-cc):
             winsound.Beep(1240, 400)
-            drawXO(img_rgb,x,w,y,h)
+            drawX(img_rgb,x,w,y,h)
+            bol = False
             # print("X on "+str(cc))
             # print("empty value:"+str(cv2.sumElems(sub_thresh)[0]))
             
-            # moveAI(img,img_rgb,cnt,j,cc)
+            # moveAI(img,img_rgb,cnt,j,cc)    
     j+=1
-    return j
+    return bol,j
 
 #detects empty square and fills a value accordingly O
-def detectOSquare(img,img_rgb,cnt,j,cc):
+def detectOSquare(img,img_rgb,cnt,j,cc,bol):
+    # print("contour type: "+str(type(cnt)))
     x, y, w, h = cv2.boundingRect(cnt)
     sub_img = img[y:y+h, x:x+w]
     _, sub_thresh = cv2.threshold(sub_img, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
@@ -41,16 +43,17 @@ def detectOSquare(img,img_rgb,cnt,j,cc):
         # print("empty value:"+str(cv2.sumElems(sub_thresh)[0]))
         print("")
     else:
-        # print("j = "+str(j))
+        print("jO = "+str(j))
         if j==(9-cc):
             winsound.Beep(1240, 400)
             drawO(img_rgb,x,w,y,h)
+            bol = True
             # print("O on "+str(cc))
             # print("filled value:"+str(cv2.sumElems(sub_thresh)[0]))
             
             # moveAI(img,img_rgb,cnt,j,cc)
     j+=1
-    return j
+    return bol,j
 
 
 
@@ -141,7 +144,8 @@ def callbox(cc,key,bol):
         sys.exit()
     j=0
     k=0
-    img = cv2.imread('box1.png', cv2.IMREAD_GRAYSCALE)
+    img90 = cv2.imread('box1.png')
+    img =  cv2.cvtColor(img90, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(img, 170, 255, cv2.THRESH_BINARY)
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -154,14 +158,14 @@ def callbox(cc,key,bol):
         for cnt in contours:
             area = cv2.contourArea(cnt)
             if area > 300: # Filter out small contours
-                j = detectEmptySquare(img,img_rgb,cnt,j,cc)
-        bol = False   
+                bol,j = detectEmptySquare(img,img_rgb,cnt,j,cc,bol)
+        # bol = False   
     else:
         for cnt in contours:
             area = cv2.contourArea(cnt)
             if area > 300: # Filter out small contours
-                j = detectOSquare(img,img_rgb,cnt,j,cc)
-        bol = True   
+                bol,j = detectOSquare(img,img_rgb,cnt,j,cc,bol)
+        # bol = True   
     
     re = checkresult(img,contours)
     
@@ -171,6 +175,7 @@ def callbox(cc,key,bol):
     cv2.destroyWindow('Board')
 #  Update the board
     cv2.imwrite('box1.png',img_rgb)
+
     # imgg= cv2.imread('box1.png')
     # cv2.imshow('Result', img_rgb)
     imS = cv2.resize(img_rgb, (530, 460)) 
