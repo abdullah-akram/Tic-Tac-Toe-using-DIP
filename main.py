@@ -6,14 +6,13 @@ from PIL import Image
 import winsound
 from computerAi import *
 
-box1 = cv2.imread('box1.png')
-box5 = cv2.imread('box2.png')
-box9 = cv2.imread('wait.png')
-bg = cv2.imread('BG.png')
-bg4 = cv2.imread('BG2.png')
+box1 = cv2.imread('box1.png')   #board for multiplayer
+box5 = cv2.imread('box2.png')   #board for computer game
+box9 = cv2.imread('wait.png')   #loading window
+bg = cv2.imread('BG.png')       #background at start
+bg4 = cv2.imread('BG2.png')     #background for game
 
 cv2.namedWindow("Tic_Tac_Toe", cv2.WND_PROP_FULLSCREEN)
-# cv2.putText(bg, str(int(2)), (605, 435), cv2.FONT_HERSHEY_PLAIN, 6, (255, 0, 255), 4)
 
 startGame = False
 computerai = False
@@ -57,15 +56,17 @@ cv2.destroyWindow('Board5')
 
 while True:
     key = cv2.waitKey(1)
-    # To start
+    # To play with computer 
     if key==ord('a'):
         computerai = True
         cv2.destroyWindow('Result')
 
+    # To play multiplayer 
     if key == ord('s'):
         print("value of key in s: "+str(key))
         startGame = True
         cv2.destroyWindow('Result')
+        
         # To See instructions
     if key == ord('i'):
         bg2 = cv2.imread('instruction.png')

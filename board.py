@@ -25,10 +25,7 @@ def detectEmptySquare(img,img_rgb,cnt,j,cc,bol):
             winsound.Beep(1240, 400)
             drawX(img_rgb,x,w,y,h)
             bol = False
-            # print("X on "+str(cc))
-            # print("empty value:"+str(cv2.sumElems(sub_thresh)[0]))
             
-            # moveAI(img,img_rgb,cnt,j,cc)    
     j+=1
     return bol,j
 
@@ -48,15 +45,12 @@ def detectOSquare(img,img_rgb,cnt,j,cc,bol):
             winsound.Beep(1240, 400)
             drawO(img_rgb,x,w,y,h)
             bol = True
-            # print("O on "+str(cc))
-            # print("filled value:"+str(cv2.sumElems(sub_thresh)[0]))
-            
-            # moveAI(img,img_rgb,cnt,j,cc)
+           
     j+=1
     return bol,j
 
 
-
+#checks to see if winning combo
 def checkresult(img,cntours):
 
     cntx = 0
@@ -93,6 +87,7 @@ def checkresult(img,cntours):
     
     xset = set(xlist)
     for lst in checklist:
+        # checking if X has won
         if set(lst).issubset(xset):
             xshow = cv2.imread('xwon.png')
             cv2.namedWindow('Xwon', cv2.WINDOW_NORMAL)
@@ -105,6 +100,7 @@ def checkresult(img,cntours):
 
     oset = set(olist)
     for lst in checklist:
+                # checking if O has won
         if set(lst).issubset(oset):
             print(f"{lst} is a subset of {olist}")
             oshow = cv2.imread('owon.png')
@@ -118,6 +114,8 @@ def checkresult(img,cntours):
 
     if len(xlist)+len(olist)>=9:
         draw = cv2.imread('draw.png')
+                # checking if draw
+
         cv2.namedWindow('Draw', cv2.WINDOW_NORMAL)
         cv2.setWindowProperty("Draw",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
         cv2.resizeWindow("Draw", 525, 456)
